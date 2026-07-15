@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PlataformaMYPE – Identidad Digital · Perú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --azul:#1B3A6B;--azul-d:#0D2B5E;--azul-l:#E6EEF9;
+  --oro:#C8973A;--oro-l:#FDF3E3;
+  --verde:#1A7A4A;--verde-l:#E6F4ED;
+  --rojo:#C0392B;--rojo-l:#FEE8E8;
+  --bg:#F4F5F7;--card:#fff;
+  --borde:#E0E4EC;--borde2:#CBD0DF;
+  --t1:#1C1C2E;--t2:#5A5F7A;--t3:#9096B0;
+  --r:10px;--sh:0 2px 14px rgba(27,58,107,.09);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;font-size:14px;line-height:1.6}
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{background:var(--azul-d);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-brand{padding:1.25rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo{display:flex;align-items:center;gap:10px}
+.sb-icon{width:36px;height:36px;border-radius:8px;background:var(--oro);display:flex;align-items:center;justify-content:center;font-size:18px}
+.sb-name{font-size:15px;font-weight:700}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.sb-profile{padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-avatar{width:42px;height:42px;border-radius:50%;background:rgba(200,151,58,.25);border:2px solid rgba(200,151,58,.45);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#F0C060;margin-bottom:.5rem}
+.sb-pname{font-size:13px;font-weight:600}
+.sb-pruc{font-size:11px;color:rgba(255,255,255,.45)}
+.sb-badge{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:10px;font-weight:500;background:rgba(26,122,74,.25);border:1px solid rgba(26,122,74,.4);color:#4FD488;padding:3px 9px;border-radius:20px}
+.sb-nav{padding:.5rem 0;flex:1}
+.sb-sec{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:.65rem 1.25rem .25rem}
+.nav-item{display:flex;align-items:center;gap:10px;padding:.58rem 1.25rem;cursor:pointer;font-size:13px;color:rgba(255,255,255,.6);border-left:3px solid transparent;transition:all .15s;user-select:none}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:rgba(200,151,58,.15);border-left-color:var(--oro);color:#fff}
+.nav-item i{font-size:17px;width:20px}
+.nav-badge{margin-left:auto;font-size:10px;font-weight:600;background:var(--oro);color:#fff;padding:2px 7px;border-radius:20px}
+.sb-footer{padding:.85rem 1.25rem;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:rgba(255,255,255,.25)}
+
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--borde);padding:0 1.75rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:20}
+.topbar-title{font-size:15px;font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.tbtn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:6px 13px;border-radius:7px;cursor:pointer;border:none;font-family:inherit;transition:opacity .15s}
+.tbtn.sec{background:var(--bg);color:var(--t2);border:1px solid var(--borde)}
+.tbtn.pri{background:var(--azul);color:#fff}
+.tbtn:hover{opacity:.85}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:#E24B4A;cursor:pointer}
+
+/* PAGES */
+.page{display:none;padding:1.75rem;flex:1}
+.page.active{display:block}
+
+/* HERO */
+.hero-card{background:linear-gradient(135deg,var(--azul-d),var(--azul));border-radius:16px;padding:1.75rem 2rem 1.5rem;color:#fff;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border:1.5px solid rgba(200,151,58,.18);border-radius:50%}
+.hero-eye{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#F0C060;background:rgba(200,151,58,.15);border:1px solid rgba(200,151,58,.3);padding:3px 10px;border-radius:20px;margin-bottom:.85rem}
+.hero-card h2{font-size:21px;font-weight:700;line-height:1.25;margin-bottom:.35rem}
+.hero-card p{font-size:12px;color:rgba(255,255,255,.6);max-width:480px}
+.hero-stats{display:flex;gap:2rem;margin-top:1.25rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.1)}
+.hs-num{font-size:21px;font-weight:700;color:#F0C060}
+.hs-lbl{font-size:10px;color:rgba(255,255,255,.5)}
+
+/* GRID */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.metric-card{background:#fff;border:1px solid var(--borde);border-radius:var(--r);padding:.9rem 1rem;box-shadow:var(--sh)}
+.m-lbl{font-size:10px;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.m-val{font-size:20px;font-weight:700}
+.m-sub{font-size:11px;color:var(--t2);margin-top:2px}
+.m-icon{float:right;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.ib{background:var(--azul-l);color:var(--azul)}
+.ig{background:var(--verde-l);color:var(--verde)}
+.io{background:var(--oro-l);color:var(--oro)}
+.ir{background:var(--rojo-l);color:var(--rojo)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
+
+/* PANEL CARD */
+.pc{background:#fff;border:1px solid var(--borde);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.pc-h{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.1rem;border-bottom:1px solid var(--borde)}
+.pc-h h3{font-size:13px;font-weight:600}
+.pc-b{padding:1.1rem}
+
+/* CHIP */
+.chip{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;letter-spacing:.03em;display:inline-block}
+.cg{background:var(--verde-l);color:var(--verde)}
+.co{background:var(--oro-l);color:#7A5A1A}
+.cb{background:var(--azul-l);color:var(--azul)}
+.cr{background:var(--rojo-l);color:var(--rojo)}
+.cx{background:var(--bg);color:var(--t2)}
+
+/* PROGRESS */
+.pb-wrap{background:var(--borde);border-radius:20px;height:6px;overflow:hidden;margin:3px 0 2px}
+.pb{height:100%;border-radius:20px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* ACTIVITY */
+.act-item{display:flex;align-items:flex-start;gap:10px;padding:.65rem 0;border-bottom:1px solid var(--borde)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.act-title{font-size:12px;color:var(--t1)}
+.act-date{font-size:10px;color:var(--t3);margin-top:1px}
+
+/* ALERTS */
+.alert{display:flex;align-items:flex-start;gap:9px;padding:.75rem .9rem;border-radius:8px;margin-bottom:8px;border:1px solid}
+.alert p{font-size:11px;line-height:1.5}
+.alert i{font-size:17px;margin-top:1px;flex-shrink:0}
+.alert.info{background:var(--azul-l);border-color:#B5D4F4}
+.alert.info i,.alert.info p{color:#0C447C}
+.alert.warn{background:var(--oro-l);border-color:#FAC775}
+.alert.warn i,.alert.warn p{color:#7A5A1A}
+.alert.ok{background:var(--verde-l);border-color:#9FE1CB}
+.alert.ok i,.alert.ok p{color:#085041}
+
+/* BTN */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:.65rem 1.1rem;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;width:100%;transition:all .15s;font-family:inherit;margin-top:7px}
+.btn-p{background:var(--azul);color:#fff}
+.btn-o{background:var(--oro);color:#fff}
+.btn-g{background:#fff;color:var(--t2);border:1px solid var(--borde)}
+.btn:hover{opacity:.87;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* FORMS */
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.fg label{font-size:11px;font-weight:500;color:var(--t2)}
+.fg input,.fg select,.fg textarea{padding:.55rem .8rem;border:1px solid var(--borde);border-radius:7px;font-size:13px;font-family:inherit;color:var(--t1);background:#fff;transition:border-color .15s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--azul);box-shadow:0 0 0 3px rgba(27,58,107,.1)}
+.fg textarea{resize:vertical;min-height:80px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.full{grid-column:1/-1}
+
+/* INFO ROW */
+.ir{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--borde)}
+.ir:last-child{border-bottom:none}
+.ir .lbl{font-size:11px;color:var(--t3)}
+.ir .val{font-size:12px;font-weight:500;color:var(--t1)}
+
+/* REQ ITEM */
+.req{display:flex;align-items:center;gap:10px;padding:.65rem 0;border-bottom:1px solid var(--borde)}
+.req:last-child{border-bottom:none}
+.req-ic{font-size:18px;width:22px;text-align:center}
+.req-t{flex:1;font-size:12px;color:var(--t1)}
+.req-s{font-size:10px;color:var(--t3)}
+
+/* STEPPER */
+.stepper{display:flex;position:relative;margin-bottom:1.75rem}
+.stepper::before{content:'';position:absolute;top:17px;left:17px;right:17px;height:2px;background:var(--borde);z-index:0}
+.st-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1}
+.st-c{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border:2px solid}
+.st-done{background:var(--verde);border-color:var(--verde);color:#fff}
+.st-act{background:var(--oro);border-color:var(--oro);color:#fff}
+.st-pend{background:#fff;border-color:var(--borde);color:var(--t3)}
+.st-lbl{font-size:9px;text-align:center;color:var(--t2);max-width:65px;line-height:1.3}
+
+/* ID CARD */
+.id-card{background:linear-gradient(135deg,var(--azul-d),var(--azul));border-radius:14px;padding:1.35rem;color:#fff;position:relative;overflow:hidden}
+.id-card::before{content:'';position:absolute;top:-25px;right:-25px;width:100px;height:100px;border:1.5px solid rgba(200,151,58,.2);border-radius:50%}
+.id-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.4rem}
+.id-av{width:46px;height:46px;border-radius:50%;background:rgba(200,151,58,.2);border:2px solid rgba(200,151,58,.45);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#F0C060;margin-bottom:.65rem}
+.id-name{font-size:15px;font-weight:700}
+.id-ruc{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
+.id-chips{display:flex;gap:6px;margin-top:.85rem;flex-wrap:wrap}
+.id-chip{font-size:9px;padding:3px 8px;border-radius:20px;font-weight:500;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.15)}
+.id-chip.gold{background:rgba(200,151,58,.2);color:#F0C060;border-color:rgba(200,151,58,.35)}
+.id-hash{margin-top:1rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.1);font-size:9px;color:rgba(255,255,255,.25);font-family:monospace}
+
+/* SCORE */
+.score-wrap{display:flex;align-items:center;gap:1rem;background:var(--azul-l);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1rem}
+.score-svg{width:74px;height:74px;flex-shrink:0}
+.score-num{font-size:26px;font-weight:700;color:var(--azul)}
+.score-lbl{font-size:10px;color:var(--t3)}
+.score-band{font-size:11px;font-weight:600;color:var(--verde);margin-top:3px}
+
+/* LOAN */
+.loan-item{display:flex;align-items:center;gap:10px;padding:.75rem .9rem;border:1px solid var(--borde);border-radius:8px;margin-bottom:7px;cursor:pointer;transition:all .15s}
+.loan-item:hover{border-color:var(--oro);box-shadow:0 2px 8px rgba(200,151,58,.15)}
+.loan-item.selected{border-color:var(--azul);background:var(--azul-l)}
+.loan-logo{width:36px;height:36px;border-radius:8px;background:var(--bg);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--azul);flex-shrink:0}
+.loan-name{font-size:12px;font-weight:600;color:var(--t1)}
+.loan-meta{font-size:10px;color:var(--t3)}
+.loan-amt{margin-left:auto;text-align:right}
+.loan-amt-n{font-size:14px;font-weight:700;color:var(--azul)}
+.loan-rate{font-size:10px;color:var(--t3)}
+
+/* TABLE */
+.dtable{width:100%;border-collapse:collapse;font-size:12px}
+.dtable th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--t3);padding:.5rem 1rem .5rem;border-bottom:1px solid var(--borde)}
+.dtable td{padding:.65rem 1rem;border-bottom:1px solid var(--borde)}
+.dtable tr:last-child td{border-bottom:none}
+.dtable tr:hover td{background:var(--bg)}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--borde);border-radius:10px;padding:1.75rem;text-align:center;cursor:pointer;background:var(--bg);transition:all .2s}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--azul);background:var(--azul-l)}
+
+/* CHAT (IA) */
+.chat-container{display:flex;flex-direction:column;height:520px;border:1px solid var(--borde);border-radius:var(--r);overflow:hidden;background:#fff}
+.chat-header{background:var(--azul);color:#fff;padding:.75rem 1rem;display:flex;align-items:center;gap:10px}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:var(--oro);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.chat-hinfo h4{font-size:13px;font-weight:600}
+.chat-hinfo p{font-size:10px;color:rgba(255,255,255,.6)}
+.chat-online{width:7px;height:7px;border-radius:50%;background:#4FD488;margin-left:auto}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.msg{max-width:80%;display:flex;flex-direction:column;gap:3px}
+.msg.bot{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.msg-bubble{padding:.55rem .85rem;border-radius:12px;font-size:12px;line-height:1.5}
+.msg.bot .msg-bubble{background:var(--bg);color:var(--t1);border-bottom-left-radius:3px}
+.msg.user .msg-bubble{background:var(--azul);color:#fff;border-bottom-right-radius:3px}
+.msg-time{font-size:9px;color:var(--t3)}
+.msg.user .msg-time{text-align:right}
+.typing{display:flex;gap:4px;align-items:center;padding:.55rem .85rem;background:var(--bg);border-radius:12px;width:fit-content}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:bounce .9s infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.chat-input-wrap{display:flex;gap:8px;padding:.75rem;border-top:1px solid var(--borde)}
+.chat-input{flex:1;padding:.55rem .8rem;border:1px solid var(--borde);border-radius:7px;font-size:13px;font-family:inherit;resize:none}
+.chat-input:focus{outline:none;border-color:var(--azul)}
+.chat-send{width:36px;height:36px;border-radius:7px;background:var(--azul);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end;font-size:16px;transition:opacity .15s}
+.chat-send:hover{opacity:.85}
+.chat-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 .75rem .65rem}
+.qbtn{font-size:10px;padding:4px 10px;border-radius:20px;background:var(--azul-l);color:var(--azul);border:1px solid rgba(27,58,107,.2);cursor:pointer;transition:all .15s}
+.qbtn:hover{background:var(--azul);color:#fff}
+
+/* TOAST */
+.toast-wrap{position:fixed;top:70px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:999}
+.toast{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:.75rem 1rem;box-shadow:0 4px 20px rgba(0,0,0,.12);display:flex;align-items:center;gap:10px;font-size:12px;min-width:260px;animation:toastIn .3s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.toast.removing{animation:toastOut .3s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(100%)}}
+.toast-icon{font-size:18px;flex-shrink:0}
+.toast.ok .toast-icon{color:var(--verde)}
+.toast.warn .toast-icon{color:var(--oro)}
+.toast.err .toast-icon{color:var(--rojo)}
+.toast-msg{flex:1}
+.toast-title{font-weight:600;margin-bottom:1px}
+.toast-sub{color:var(--t2);font-size:11px}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:14px;padding:1.75rem;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:scale(.95);transition:transform .2s}
+.modal-bg.open .modal{transform:scale(1)}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:.35rem}
+.modal p{font-size:13px;color:var(--t2);margin-bottom:1.25rem}
+.modal-btns{display:flex;gap:10px;margin-top:1.25rem}
+.modal-btns .btn{margin-top:0}
+.modal-close{float:right;background:none;border:none;cursor:pointer;font-size:20px;color:var(--t3);line-height:1}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.65rem;margin-top:.75rem}
+
+/* ANIMATED COUNTER */
+.counter{transition:all .5s}
+
+@media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{display:none}.metrics-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toasts"></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3 id="modal-title"></h3>
+    <p id="modal-body"></p>
+    <div id="modal-content"></div>
+    <div class="modal-btns" id="modal-btns"></div>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <div class="sb-icon"><i class="ti ti-shield-check"></i></div>
+      <div>
+        <div class="sb-name">PlataformaMYPE</div>
+        <div class="sb-sub">Identidad · Formalización · Crédito</div>
+      </div>
+    </div>
+  </div>
+  <div class="sb-profile">
+    <div class="sb-avatar">MQ</div>
+    <div class="sb-pname">María Elena Quispe H.</div>
+    <div class="sb-pruc">RUC 10473829101 · NRUS</div>
+    <span class="sb-badge"><i class="ti ti-check" style="font-size:9px"></i> Identidad verificada</span>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Principal</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+    <div class="nav-item" onclick="showPage('identidad',this)"><i class="ti ti-id"></i> Identidad Digital</div>
+    <div class="nav-sec">Trámites</div>
+    <div class="nav-item" onclick="showPage('formalizacion',this)"><i class="ti ti-building-store"></i> Formalización <span class="nav-badge" id="badge-form">1</span></div>
+    <div class="nav-item" onclick="showPage('credito',this)"><i class="ti ti-currency-dollar"></i> Acceso al Crédito</div>
+    <div class="nav-sec">Gestión</div>
+    <div class="nav-item" onclick="showPage('historial',this)"><i class="ti ti-history"></i> Historial</div>
+    <div class="nav-item" onclick="showPage('documentos',this)"><i class="ti ti-files"></i> Documentos</div>
+    <div class="nav-item" onclick="showPage('asistente',this)"><i class="ti ti-robot"></i> Asistente IA</div>
+    <div class="nav-item" onclick="showPage('config',this)"><i class="ti ti-settings"></i> Configuración</div>
+  </nav>
+  <div class="sb-footer">PlataformaMYPE v2.0 · Perú 2025<br>PRODUCE · SUNAT · RENIEC</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+<header class="topbar">
+  <div class="topbar-title" id="page-title">Dashboard</div>
+  <div class="topbar-right">
+    <button class="tbtn sec" onclick="showPage('documentos',null)"><i class="ti ti-upload"></i> Subir doc.</button>
+    <button class="tbtn pri" onclick="showPage('credito',null)"><i class="ti ti-currency-dollar"></i> Solicitar crédito</button>
+    <div class="notif-dot" title="1 notificación" onclick="toast('Licencia pendiente','Tu solicitud está en revisión documental','warn')"></div>
+  </div>
+</header>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page active" id="page-dashboard">
+  <div class="hero-card">
+    <div class="hero-eye"><i class="ti ti-bolt" style="font-size:10px"></i> Resumen de tu negocio</div>
+    <h2>Textilería Andina Quispe</h2>
+    <p>Tu identidad digital está verificada. Tienes 3 opciones de financiamiento disponibles y un trámite pendiente.</p>
+    <div class="hero-stats">
+      <div><div class="hs-num" id="dash-score">715</div><div class="hs-lbl">Puntaje crediticio</div></div>
+      <div><div class="hs-num" id="dash-form">82%</div><div class="hs-lbl">Formalización</div></div>
+      <div><div class="hs-num">S/ 25K</div><div class="hs-lbl">Crédito disponible</div></div>
+      <div><div class="hs-num">5 años</div><div class="hs-lbl">Trayectoria</div></div>
+    </div>
+  </div>
+  <div class="metrics-grid">
+    <div class="metric-card"><div class="m-icon ig"><i class="ti ti-check"></i></div><div class="m-lbl">Identidad</div><div class="m-val" style="color:var(--verde);font-size:15px">Verificada</div><div class="m-sub">RENIEC · SUNAT</div></div>
+    <div class="metric-card"><div class="m-icon ib"><i class="ti ti-chart-bar"></i></div><div class="m-lbl">Score crediticio</div><div class="m-val" id="metric-score">715</div><div class="m-sub">Riesgo bajo</div></div>
+    <div class="metric-card"><div class="m-icon io"><i class="ti ti-files"></i></div><div class="m-lbl">Documentos</div><div class="m-val" id="metric-docs">6/8</div><div class="m-sub">2 pendientes</div></div>
+    <div class="metric-card"><div class="m-icon ir"><i class="ti ti-alert-triangle"></i></div><div class="m-lbl">Trámites activos</div><div class="m-val" id="metric-tramites">1</div><div class="m-sub">Licencia municipal</div></div>
+  </div>
+  <div class="two-col">
+    <div class="pc">
+      <div class="pc-h"><h3>Actividad reciente</h3><span class="chip cb">Ver historial →</span></div>
+      <div class="pc-b" id="activity-list">
+        <div class="act-item"><div class="act-dot" style="background:var(--verde)"></div><div><div class="act-title">Identidad digital verificada</div><div class="act-date">12 jun 2025 · RENIEC</div></div><span class="chip cg">OK</span></div>
+        <div class="act-item"><div class="act-dot" style="background:var(--verde)"></div><div><div class="act-title">RUC vinculado con SUNAT</div><div class="act-date">12 jun 2025</div></div><span class="chip cg">OK</span></div>
+        <div class="act-item"><div class="act-dot" style="background:var(--azul)"></div><div><div class="act-title">Score crediticio generado: 715</div><div class="act-date">15 jun 2025</div></div><span class="chip cb">Nuevo</span></div>
+        <div class="act-item"><div class="act-dot" style="background:var(--oro)"></div><div><div class="act-title">Licencia municipal en trámite</div><div class="act-date">18 jun 2025</div></div><span class="chip co">Proceso</span></div>
+      </div>
+    </div>
+    <div class="pc">
+      <div class="pc-h"><h3>Formalización</h3><span class="chip co" id="dash-pct">82%</span></div>
+      <div class="pc-b">
+        <div style="margin-bottom:.85rem">
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Identidad digital</span><span style="font-weight:600;color:var(--verde)">100%</span></div>
+          <div class="pb-wrap"><div class="pb" style="width:100%;background:var(--verde)"></div></div>
+        </div>
+        <div style="margin-bottom:.85rem">
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Registro tributario</span><span style="font-weight:600;color:var(--verde)">100%</span></div>
+          <div class="pb-wrap"><div class="pb" style="width:100%;background:var(--verde)"></div></div>
+        </div>
+        <div style="margin-bottom:.85rem">
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Licencia municipal</span><span style="font-weight:600;color:var(--oro)">40%</span></div>
+          <div class="pb-wrap"><div class="pb" style="width:40%;background:var(--oro)"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Registros contables</span><span style="font-weight:600;color:var(--t3)">0%</span></div>
+          <div class="pb-wrap"><div class="pb" style="width:0%;background:var(--borde)"></div></div>
+        </div>
+        <button class="btn btn-g" onclick="showPage('formalizacion',null)" style="margin-top:.85rem"><i class="ti ti-arrow-right"></i> Continuar formalización</button>
+      </div>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-h"><h3>Notificaciones</h3><span class="chip co">1 pendiente</span></div>
+    <div class="pc-b">
+      <div class="alert warn"><i class="ti ti-alert-triangle"></i><p><strong>Licencia pendiente:</strong> Tu solicitud está en revisión. Tiempo estimado: 2 días hábiles más.</p></div>
+      <div class="alert ok"><i class="ti ti-check-circle"></i><p><strong>3 opciones de crédito desbloqueadas:</strong> Con tu puntaje 715 puedes acceder hasta S/ 25,000.</p></div>
+      <div class="alert info"><i class="ti ti-bulb"></i><p><strong>Sube tu score:</strong> Agrega registros contables para llegar a 780+ y obtener tasas desde 8% TEA.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ IDENTIDAD ═══ -->
+<div class="page" id="page-identidad">
+  <div class="two-col">
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-b">
+          <div class="id-card">
+            <div class="id-lbl">Identidad Digital MYPE · PlataformaMYPE</div>
+            <div class="id-av">MQ</div>
+            <div class="id-name">María Elena Quispe Huanca</div>
+            <div class="id-ruc">DNI 47382910 · RUC 10473829101</div>
+            <div class="id-chips">
+              <span class="id-chip gold"><i class="ti ti-check" style="font-size:9px"></i> RENIEC</span>
+              <span class="id-chip gold"><i class="ti ti-check" style="font-size:9px"></i> SUNAT</span>
+              <span class="id-chip">Régimen NRUS</span>
+              <span class="id-chip"><i class="ti ti-map-pin" style="font-size:9px"></i> Puno</span>
+            </div>
+            <div class="id-hash">ID: PE-2024-0087341 · SHA: a3f9b2c1d8e4f7a0b2c5d1e3...</div>
+          </div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-h"><h3>Estado de verificaciones</h3></div>
+        <div class="pc-b">
+          <div class="req"><i class="ti ti-id req-ic" style="color:var(--verde)"></i><div class="req-t">RENIEC — DNI biométrico<div class="req-s">12 jun 2025</div></div><span class="chip cg">Verificado</span></div>
+          <div class="req"><i class="ti ti-receipt req-ic" style="color:var(--verde)"></i><div class="req-t">SUNAT — RUC activo<div class="req-s">NRUS · Al día</div></div><span class="chip cg">Activo</span></div>
+          <div class="req"><i class="ti ti-bank req-ic" style="color:var(--oro)"></i><div class="req-t">SBS — Central de riesgo<div class="req-s">Sin deudas en mora</div></div><span class="chip co">Sin deudas</span></div>
+          <div class="req"><i class="ti ti-building req-ic" style="color:var(--t3)"></i><div class="req-t">Municipalidad — Licencia<div class="req-s">En trámite</div></div><span class="chip cx">Pendiente</span></div>
+          <button class="btn btn-g" onclick="verifyReniec()"><i class="ti ti-refresh"></i> Re-verificar identidad</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Datos del negocio</h3></div>
+        <div class="pc-b">
+          <div class="ir"><span class="lbl">Razón social</span><span class="val">Textilería Andina Quispe</span></div>
+          <div class="ir"><span class="lbl">Tipo de persona</span><span class="val">Natural con negocio</span></div>
+          <div class="ir"><span class="lbl">Actividad</span><span class="val">Artesanía textil (CIIU 1311)</span></div>
+          <div class="ir"><span class="lbl">Régimen</span><span class="val">Nuevo RUS — Cat. 1</span></div>
+          <div class="ir"><span class="lbl">Inicio actividades</span><span class="val">15 mar 2019</span></div>
+          <div class="ir"><span class="lbl">Dirección fiscal</span><span class="val">Jr. Moquegua 482, Juliaca</span></div>
+          <div class="ir"><span class="lbl">Empleados</span><span class="val">3 trabajadores</span></div>
+          <div class="ir"><span class="lbl">Ventas mensuales</span><span class="val">S/ 4,200 – 6,800</span></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-h"><h3>Actualizar datos</h3></div>
+        <div class="pc-b">
+          <div class="form-grid">
+            <div class="fg"><label>Teléfono</label><input type="tel" id="tel-inp" value="+51 951 384 720"/></div>
+            <div class="fg"><label>Correo</label><input type="email" id="email-inp" value="m.quispe@textil.pe"/></div>
+            <div class="fg full"><label>Dirección del negocio</label><input type="text" id="dir-inp" value="Jr. Moquegua 482, Juliaca, Puno"/></div>
+          </div>
+          <button class="btn btn-p" onclick="saveProfile()"><i class="ti ti-device-floppy"></i> Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FORMALIZACIÓN ═══ -->
+<div class="page" id="page-formalizacion">
+  <div class="stepper">
+    <div class="st-item"><div class="st-c st-done"><i class="ti ti-check"></i></div><div class="st-lbl">Identidad digital</div></div>
+    <div class="st-item"><div class="st-c st-done"><i class="ti ti-check"></i></div><div class="st-lbl">RUC activo</div></div>
+    <div class="st-item"><div class="st-c st-act" id="st3">3</div><div class="st-lbl">Licencia municipal</div></div>
+    <div class="st-item"><div class="st-c st-pend" id="st4">4</div><div class="st-lbl">Registros contables</div></div>
+    <div class="st-item"><div class="st-c st-pend" id="st5">5</div><div class="st-lbl">Acceso a crédito</div></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Requisitos</h3><span class="chip co">3/5 completos</span></div>
+        <div class="pc-b">
+          <div class="req"><i class="ti ti-id req-ic" style="color:var(--verde)"></i><div class="req-t">DNI biométrico RENIEC<div class="req-s">Verificación automática</div></div><span class="chip cg">✓ Listo</span></div>
+          <div class="req"><i class="ti ti-receipt req-ic" style="color:var(--verde)"></i><div class="req-t">RUC activo en SUNAT<div class="req-s">NRUS Cat. 1</div></div><span class="chip cg">✓ Listo</span></div>
+          <div class="req"><i class="ti ti-check req-ic" style="color:var(--verde)"></i><div class="req-t">Declaración mensual al día<div class="req-s">Últimos 6 meses sin deuda</div></div><span class="chip cg">✓ Listo</span></div>
+          <div class="req"><i class="ti ti-building-store req-ic" style="color:var(--oro)"></i><div class="req-t">Licencia de funcionamiento<div class="req-s">Muni. Provincial San Román</div></div><span class="chip co">En proceso</span></div>
+          <div class="req"><i class="ti ti-notes req-ic" style="color:var(--t3)"></i><div class="req-t">Registros contables<div class="req-s">Ingresos y egresos mensuales</div></div><span class="chip cx">Pendiente</span></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-h"><h3>Costos y tiempos</h3></div>
+        <div class="pc-b">
+          <div class="ir"><span class="lbl">Licencia municipal</span><span class="val">S/ 45.00</span></div>
+          <div class="ir"><span class="lbl">Tiempo de aprobación</span><span class="val">1–3 días hábiles</span></div>
+          <div class="ir"><span class="lbl">Registros contables</span><span class="val">Sin costo (digital)</span></div>
+          <div class="ir"><span class="lbl">Total restante</span><span class="val" style="color:var(--azul);font-weight:700">S/ 45.00</span></div>
+          <button class="btn btn-p" onclick="pagarLicencia()"><i class="ti ti-credit-card"></i> Pagar derecho de trámite</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Expediente MPJ-2025-04821</h3><span class="chip co">En revisión</span></div>
+        <div class="pc-b">
+          <div class="alert info"><i class="ti ti-info-circle"></i><p>Solicitud enviada el 18 jun. La Muni. tiene hasta el 21 jun para responder.</p></div>
+          <div class="ir"><span class="lbl">N° expediente</span><span class="val" style="font-family:monospace">MPJ-2025-04821</span></div>
+          <div class="ir"><span class="lbl">Fecha de ingreso</span><span class="val">18 jun 2025</span></div>
+          <div class="ir"><span class="lbl">Estado</span><span class="val"><span class="chip co" id="lic-status">Revisión documental</span></span></div>
+          <div class="ir"><span class="lbl">Fecha estimada</span><span class="val">21 jun 2025</span></div>
+          <button class="btn btn-g" onclick="checkLicencia()"><i class="ti ti-refresh"></i> Verificar estado en línea</button>
+          <button class="btn btn-p" onclick="openRegistros()"><i class="ti ti-notes"></i> Registrar movimientos contables</button>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-h"><h3>Documentos del expediente</h3></div>
+        <div class="pc-b">
+          <div class="req"><i class="ti ti-file-check req-ic" style="color:var(--verde)"></i><div class="req-t">Copia de DNI<div class="req-s">18 jun 2025</div></div><span class="chip cg">OK</span></div>
+          <div class="req"><i class="ti ti-file-check req-ic" style="color:var(--verde)"></i><div class="req-t">Ficha RUC<div class="req-s">Descargado SUNAT</div></div><span class="chip cg">OK</span></div>
+          <div class="req"><i class="ti ti-file-check req-ic" style="color:var(--verde)"></i><div class="req-t">Contrato de arrendamiento<div class="req-s">18 jun 2025</div></div><span class="chip cg">OK</span></div>
+          <div class="req" id="pago-req"><i class="ti ti-file req-ic" style="color:var(--t3)"></i><div class="req-t">Voucher pago de derecho<div class="req-s">S/ 45.00 pendiente</div></div><span class="chip cx" id="pago-chip">Pendiente</span></div>
+          <button class="btn btn-g" onclick="uploadDoc()"><i class="ti ti-upload"></i> Subir voucher de pago</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CRÉDITO ═══ -->
+<div class="page" id="page-credito">
+  <div class="two-col">
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Score crediticio MYPE</h3></div>
+        <div class="pc-b">
+          <div class="score-wrap">
+            <svg class="score-svg" viewBox="0 0 74 74" id="score-ring-svg">
+              <circle cx="37" cy="37" r="30" fill="none" stroke="#E0E4EC" stroke-width="7"/>
+              <circle id="score-arc" cx="37" cy="37" r="30" fill="none" stroke="#1B3A6B" stroke-width="7"
+                stroke-dasharray="162 189" stroke-dashoffset="47" stroke-linecap="round" transform="rotate(-90 37 37)" style="transition:stroke-dasharray .8s"/>
+              <text x="37" y="42" text-anchor="middle" font-size="16" font-weight="700" fill="#1B3A6B" font-family="Inter,sans-serif" id="score-txt">715</text>
+            </svg>
+            <div>
+              <div class="score-num" id="score-big">715 pts</div>
+              <div class="score-lbl">Puntaje crediticio MYPE</div>
+              <div class="score-band" id="score-band">Riesgo bajo · Apto para crédito</div>
+            </div>
+          </div>
+          <div class="sec-lbl">Factores del score</div>
+          <div style="margin-bottom:.65rem"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Historial tributario SUNAT</span><span style="font-weight:600">+280 pts</span></div><div class="pb-wrap"><div class="pb" style="width:85%;background:var(--verde)"></div></div></div>
+          <div style="margin-bottom:.65rem"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Tiempo en el mercado (5 años)</span><span style="font-weight:600">+200 pts</span></div><div class="pb-wrap"><div class="pb" style="width:68%;background:var(--azul)"></div></div></div>
+          <div style="margin-bottom:.65rem"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Identidad digital verificada</span><span style="font-weight:600">+150 pts</span></div><div class="pb-wrap"><div class="pb" style="width:52%;background:var(--oro)"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--t2)">Sin registros contables</span><span style="font-weight:600;color:var(--rojo)">-115 pts</span></div><div class="pb-wrap"><div class="pb" style="width:30%;background:var(--rojo)"></div></div></div>
+          <div class="alert info" style="margin-top:.85rem"><i class="ti ti-bulb"></i><p>Agrega registros contables → score sube a <strong>780+</strong> → tasas desde 8% TEA.</p></div>
+          <button class="btn btn-g" onclick="mejorarScore()"><i class="ti ti-trending-up"></i> Cómo mejorar mi score</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Financiamiento disponible</h3><span class="chip cg">3 opciones</span></div>
+        <div class="pc-b">
+          <div class="loan-item selected" onclick="selectLoan(this,'8000','12','15','Caja Huancayo')">
+            <div class="loan-logo"><i class="ti ti-building-bank"></i></div>
+            <div><div class="loan-name">Capital de Trabajo · Caja Huancayo</div><div class="loan-meta">12 meses · 24 h · Sin garantía real</div></div>
+            <div class="loan-amt"><div class="loan-amt-n">S/ 8,000</div><div class="loan-rate">15% TEA</div></div>
+          </div>
+          <div class="loan-item" onclick="selectLoan(this,'15000','24','12','COFIDE Crecer MYPE')">
+            <div class="loan-logo"><i class="ti ti-landmark"></i></div>
+            <div><div class="loan-name">Crecer MYPE · COFIDE</div><div class="loan-meta">24 meses · Garantía estatal parcial</div></div>
+            <div class="loan-amt"><div class="loan-amt-n">S/ 15,000</div><div class="loan-rate">12% TEA</div></div>
+          </div>
+          <div class="loan-item" onclick="selectLoan(this,'25000','36','9.5','FAE-MYPE Reactiva')">
+            <div class="loan-logo"><i class="ti ti-circles-relation"></i></div>
+            <div><div class="loan-name">FAE-MYPE · Reactiva Perú</div><div class="loan-meta">36 meses · Fondo estatal</div></div>
+            <div class="loan-amt"><div class="loan-amt-n">S/ 25,000</div><div class="loan-rate">9.5% TEA</div></div>
+          </div>
+          <button class="btn btn-p" onclick="solicitarCredito()"><i class="ti ti-send"></i> Solicitar financiamiento</button>
+          <button class="btn btn-g" onclick="showPage('credito',null)"><i class="ti ti-calculator"></i> Ver simulador ↓</button>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-h"><h3>Simulador de cuotas</h3></div>
+        <div class="pc-b">
+          <div class="form-grid">
+            <div class="fg"><label>Monto (S/)</label><input type="number" id="sim-monto" value="8000" oninput="calcCuota()"/></div>
+            <div class="fg"><label>Plazo (meses)</label><input type="number" id="sim-plazo" value="12" min="1" max="60" oninput="calcCuota()"/></div>
+            <div class="fg"><label>TEA (%)</label><input type="number" id="sim-tea" value="15" step="0.1" oninput="calcCuota()"/></div>
+            <div class="fg"><label>Cuota mensual</label><input type="text" id="sim-res" value="S/ 722.80" readonly style="background:var(--azul-l);font-weight:700;color:var(--azul);border-color:var(--azul)"/></div>
+          </div>
+          <div style="font-size:10px;color:var(--t3);margin-top:4px">Total: <strong id="sim-total">S/ 8,673.60</strong> · Intereses: <strong id="sim-int">S/ 673.60</strong></div>
+          <button class="btn btn-o" onclick="solicitarCredito()" style="margin-top:.65rem"><i class="ti ti-check"></i> Confirmar y solicitar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HISTORIAL ═══ -->
+<div class="page" id="page-historial">
+  <div class="pc">
+    <div class="pc-h"><h3>Historial completo</h3><span class="chip cb" id="hist-count">8 eventos</span></div>
+    <div style="padding:0">
+      <table class="dtable" id="hist-table">
+        <thead><tr><th>Fecha</th><th>Evento</th><th>Fuente</th><th>Estado</th></tr></thead>
+        <tbody id="hist-body">
+          <tr><td>12 jun 2025</td><td>Verificación biométrica RENIEC</td><td>RENIEC API</td><td><span class="chip cg">Completado</span></td></tr>
+          <tr><td>12 jun 2025</td><td>Vinculación RUC activo</td><td>SUNAT API</td><td><span class="chip cg">Completado</span></td></tr>
+          <tr><td>13 jun 2025</td><td>Identidad digital generada</td><td>Sistema</td><td><span class="chip cg">Completado</span></td></tr>
+          <tr><td>14 jun 2025</td><td>Consulta central de riesgos SBS</td><td>SBS API</td><td><span class="chip cg">Sin deudas</span></td></tr>
+          <tr><td>15 jun 2025</td><td>Score crediticio calculado: 715 pts</td><td>Motor scoring</td><td><span class="chip cb">Activo</span></td></tr>
+          <tr><td>15 jun 2025</td><td>3 productos financieros desbloqueados</td><td>Matching</td><td><span class="chip cb">Disponible</span></td></tr>
+          <tr><td>18 jun 2025</td><td>Solicitud licencia municipal enviada</td><td>Muni. Juliaca</td><td><span class="chip co">En proceso</span></td></tr>
+          <tr><td>18 jun 2025</td><td>Documentos cargados al expediente</td><td>Usuario</td><td><span class="chip cg">Completado</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DOCUMENTOS ═══ -->
+<div class="page" id="page-documentos">
+  <div class="two-col">
+    <div class="pc">
+      <div class="pc-h"><h3>Documentos almacenados</h3><span class="chip cb" id="docs-count">6 archivos</span></div>
+      <div class="pc-b" id="docs-list">
+        <div class="req"><i class="ti ti-file-text req-ic" style="color:var(--azul)"></i><div class="req-t">DNI — María Elena Quispe<div class="req-s">PDF · 245 KB · 12 jun</div></div><span class="chip cg">Verificado</span></div>
+        <div class="req"><i class="ti ti-file-text req-ic" style="color:var(--azul)"></i><div class="req-t">Ficha RUC 10473829101<div class="req-s">PDF · 118 KB · 12 jun</div></div><span class="chip cg">Verificado</span></div>
+        <div class="req"><i class="ti ti-file-text req-ic" style="color:var(--azul)"></i><div class="req-t">Contrato de arrendamiento<div class="req-s">PDF · 320 KB · 18 jun</div></div><span class="chip cg">Cargado</span></div>
+        <div class="req"><i class="ti ti-file-spreadsheet req-ic" style="color:var(--verde)"></i><div class="req-t">Declaraciones SUNAT ene–jun<div class="req-s">PDF · 6 archivos</div></div><span class="chip cg">Al día</span></div>
+        <div class="req" id="doc-pago"><i class="ti ti-file req-ic" style="color:var(--t3)"></i><div class="req-t">Voucher pago municipal<div class="req-s">Pendiente · S/ 45.00</div></div><span class="chip cx">Pendiente</span></div>
+        <div class="req"><i class="ti ti-file req-ic" style="color:var(--t3)"></i><div class="req-t">Registros contables 2025<div class="req-s">No cargado aún</div></div><span class="chip cx">Faltante</span></div>
+      </div>
+    </div>
+    <div class="pc">
+      <div class="pc-h"><h3>Subir documento</h3></div>
+      <div class="pc-b">
+        <div class="fg"><label>Tipo de documento</label>
+          <select id="doc-tipo">
+            <option>DNI / Cédula de identidad</option>
+            <option>Ficha RUC</option>
+            <option>Contrato de arrendamiento</option>
+            <option>Declaración mensual SUNAT</option>
+            <option>Voucher de pago municipal</option>
+            <option>Registro contable</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="fg"><label>Descripción</label><input type="text" id="doc-desc" placeholder="Ej: Declaración junio 2025"/></div>
+        <div class="upload-zone" id="upload-zone" onclick="simulateUpload()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+          <i class="ti ti-cloud-upload" style="font-size:30px;color:var(--t3)"></i>
+          <div style="font-size:12px;color:var(--t2);margin-top:.5rem">Arrastra tu archivo aquí o haz clic</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:3px">PDF, JPG o PNG · máx. 5 MB</div>
+        </div>
+        <button class="btn btn-p" onclick="simulateUpload()"><i class="ti ti-upload"></i> Cargar documento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ASISTENTE IA ═══ -->
+<div class="page" id="page-asistente">
+  <div class="two-col">
+    <div>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+          <div class="chat-avatar">IA</div>
+          <div class="chat-hinfo">
+            <h4>Asistente MYPE</h4>
+            <p>Powered by Claude · Especialista en formalización y crédito</p>
+          </div>
+          <div class="chat-online"></div>
+        </div>
+        <div class="chat-msgs" id="chat-msgs">
+          <div class="msg bot">
+            <div class="msg-bubble">¡Hola María Elena! 👋 Soy tu asistente digital para la formalización y acceso al crédito. ¿En qué puedo ayudarte hoy?</div>
+            <div class="msg-time">Ahora mismo</div>
+          </div>
+        </div>
+        <div class="chat-quick" id="quick-btns">
+          <span class="qbtn" onclick="quickMsg('¿Cómo mejoro mi score crediticio?')">📈 Mejorar score</span>
+          <span class="qbtn" onclick="quickMsg('¿Qué me falta para formalizarme?')">📋 Formalización</span>
+          <span class="qbtn" onclick="quickMsg('¿Cuál crédito me conviene?')">💰 Mejor crédito</span>
+          <span class="qbtn" onclick="quickMsg('¿Cómo obtengo la licencia municipal?')">🏛️ Licencia</span>
+        </div>
+        <div class="chat-input-wrap">
+          <textarea class="chat-input" id="chat-input" rows="1" placeholder="Escribe tu consulta…" onkeydown="chatKey(event)"></textarea>
+          <button class="chat-send" onclick="sendChat()"><i class="ti ti-send"></i></button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Tu resumen para el asistente</h3></div>
+        <div class="pc-b">
+          <div class="ir"><span class="lbl">Score actual</span><span class="val" style="color:var(--azul);font-weight:700">715 pts</span></div>
+          <div class="ir"><span class="lbl">Formalización</span><span class="val">82% completada</span></div>
+          <div class="ir"><span class="lbl">Crédito disponible</span><span class="val" style="color:var(--verde)">Hasta S/ 25,000</span></div>
+          <div class="ir"><span class="lbl">Trámite pendiente</span><span class="val">Licencia municipal</span></div>
+          <div class="ir"><span class="lbl">Siguiente paso</span><span class="val">Pagar S/ 45 y subir voucher</span></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-h"><h3>Preguntas frecuentes</h3></div>
+        <div class="pc-b">
+          <button class="btn btn-g" onclick="quickMsg('¿Qué es el Nuevo RUS y si me conviene cambiar de régimen?')">¿Cambio de régimen tributario?</button>
+          <button class="btn btn-g" onclick="quickMsg('¿Cuáles son los requisitos para el FAE-MYPE?')">Requisitos FAE-MYPE</button>
+          <button class="btn btn-g" onclick="quickMsg('¿Cómo registro mis ventas diarias para mejorar mi historial?')">Registrar ventas diarias</button>
+          <button class="btn btn-g" onclick="quickMsg('¿Qué beneficios tiene formalizarme completamente?')">Beneficios de formalizarme</button>
+          <button class="btn btn-g" onclick="quickMsg('¿Puedo acceder a crédito con INFOCORP negativo?')">Crédito con INFOCORP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONFIGURACIÓN ═══ -->
+<style>
+/* Config extras */
+.cfg-avatar-wrap{display:flex;align-items:center;gap:1rem;padding:.85rem 0 1.1rem;border-bottom:1px solid var(--borde);margin-bottom:1rem}
+.cfg-avatar{width:60px;height:60px;border-radius:50%;background:rgba(200,151,58,.2);border:3px solid rgba(200,151,58,.4);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#C8973A;flex-shrink:0;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.cfg-avatar:hover .cfg-av-overlay{opacity:1}
+.cfg-av-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:18px;color:#fff}
+.cfg-av-info h4{font-size:14px;font-weight:600;color:var(--t1)}
+.cfg-av-info p{font-size:11px;color:var(--t3);margin-top:2px}
+.cfg-av-btn{font-size:11px;color:var(--azul);cursor:pointer;font-weight:500;margin-top:5px;display:inline-block;text-decoration:underline}
+
+.field-wrap{position:relative}
+.field-wrap input{width:100%;padding-right:2.4rem}
+.field-action{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--t3);font-size:16px;padding:2px;transition:color .15s}
+.field-action:hover{color:var(--azul)}
+
+.field-hint{font-size:10px;margin-top:3px}
+.hint-ok{color:var(--verde)}
+.hint-err{color:var(--rojo)}
+.hint-info{color:var(--t3)}
+
+.dirty-banner{display:none;align-items:center;gap:10px;background:var(--oro-l);border:1px solid #FAC775;border-radius:8px;padding:.65rem .9rem;margin-bottom:1rem;font-size:12px;color:#7A5A1A}
+.dirty-banner.show{display:flex}
+.dirty-banner i{font-size:17px;flex-shrink:0}
+
+.pwd-strength{height:4px;border-radius:4px;margin-top:5px;transition:all .3s;background:var(--borde)}
+.pwd-label{font-size:10px;margin-top:3px}
+
+.cfg-section-divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0 1rem}
+.cfg-section-divider span{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.cfg-section-divider::before,.cfg-section-divider::after{content:'';flex:1;height:1px;background:var(--borde)}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--borde)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-lbl{font-size:12px;color:var(--t1)}
+.toggle-sub{font-size:10px;color:var(--t3)}
+.toggle{width:38px;height:22px;border-radius:11px;border:none;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle.on{background:var(--verde)}
+.toggle.off{background:var(--borde2)}
+.toggle.on::after{transform:translateX(16px)}
+
+.cfg-preview{background:linear-gradient(135deg,var(--azul-d),var(--azul));border-radius:12px;padding:1rem 1.1rem;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.85rem}
+.cfg-prev-av{width:42px;height:42px;border-radius:50%;background:rgba(200,151,58,.25);border:2px solid rgba(200,151,58,.45);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#F0C060;flex-shrink:0}
+.cfg-prev-name{font-size:14px;font-weight:600}
+.cfg-prev-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
+</style>
+
+<div class="page" id="page-config">
+  <!-- Banner de cambios pendientes -->
+  <div class="dirty-banner" id="dirty-banner">
+    <i class="ti ti-alert-circle"></i>
+    <span>Tienes cambios sin guardar.</span>
+    <button class="btn btn-o" onclick="saveConfig()" style="margin-top:0;width:auto;padding:4px 14px;font-size:12px;margin-left:auto">Guardar ahora</button>
+    <button onclick="discardChanges()" style="background:none;border:none;cursor:pointer;color:#7A5A1A;font-size:18px;margin-left:4px">&times;</button>
+  </div>
+
+  <div class="two-col">
+    <!-- COLUMNA IZQUIERDA: Datos personales -->
+    <div>
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h">
+          <h3>Datos personales</h3>
+          <span class="chip cx" id="cfg-status-chip">Sin cambios</span>
+        </div>
+        <div class="pc-b">
+
+          <!-- Avatar / preview -->
+          <div class="cfg-avatar-wrap">
+            <div class="cfg-avatar" id="cfg-avatar" onclick="changeAvatar()">
+              <span id="cfg-av-initials">MQ</span>
+              <div class="cfg-av-overlay"><i class="ti ti-camera"></i></div>
+            </div>
+            <div class="cfg-av-info">
+              <h4 id="cfg-prev-fullname">María Elena Quispe Huanca</h4>
+              <p id="cfg-prev-email">m.quispe@textil.pe</p>
+              <span class="cfg-av-btn" onclick="changeAvatar()">Cambiar foto de perfil</span>
+            </div>
+          </div>
+
+          <!-- Vista previa de tarjeta -->
+          <div class="cfg-preview" id="cfg-card-preview">
+            <div class="cfg-prev-av" id="cfg-prev-av">MQ</div>
+            <div>
+              <div class="cfg-prev-name" id="cfg-card-name">María Elena Quispe Huanca</div>
+              <div class="cfg-prev-sub" id="cfg-card-email">m.quispe@textil.pe · +51 951 384 720</div>
+            </div>
+          </div>
+
+          <!-- Campos editables -->
+          <div class="form-grid">
+            <div class="fg">
+              <label>Nombre completo <span style="color:var(--rojo)">*</span></label>
+              <div class="field-wrap">
+                <input type="text" id="cfg-nombre" value="María Elena Quispe Huanca"
+                  oninput="onFieldChange()" onblur="validateNombre()"/>
+              </div>
+              <div class="field-hint hint-info" id="hint-nombre">Tal como aparece en tu DNI</div>
+            </div>
+
+            <div class="fg">
+              <label>DNI</label>
+              <div class="field-wrap">
+                <input type="text" value="47382910" readonly
+                  style="background:var(--bg);color:var(--t3);cursor:not-allowed"/>
+                <button class="field-action" title="No editable — vinculado a RENIEC" style="cursor:default">
+                  <i class="ti ti-lock"></i>
+                </button>
+              </div>
+              <div class="field-hint hint-info">Vinculado a RENIEC · no editable</div>
+            </div>
+
+            <div class="fg">
+              <label>Correo electrónico <span style="color:var(--rojo)">*</span></label>
+              <div class="field-wrap">
+                <input type="email" id="cfg-email" value="m.quispe@textil.pe"
+                  oninput="onFieldChange()" onblur="validateEmail()"/>
+                <button class="field-action" id="btn-verify-email" title="Verificar correo" onclick="verifyEmail()">
+                  <i class="ti ti-mail-check"></i>
+                </button>
+              </div>
+              <div class="field-hint hint-ok" id="hint-email"><i class="ti ti-check" style="font-size:9px"></i> Verificado</div>
+            </div>
+
+            <div class="fg">
+              <label>Teléfono / WhatsApp <span style="color:var(--rojo)">*</span></label>
+              <div class="field-wrap">
+                <input type="tel" id="cfg-telefono" value="+51 951 384 720"
+                  oninput="onFieldChange()" onblur="validateTel()"/>
+                <button class="field-action" title="Verificar por SMS" onclick="verifySMS()">
+                  <i class="ti ti-device-mobile"></i>
+                </button>
+              </div>
+              <div class="field-hint hint-info" id="hint-tel">Formato: +51 9XX XXX XXX</div>
+            </div>
+
+            <div class="fg full">
+              <label>Dirección del negocio</label>
+              <div class="field-wrap">
+                <input type="text" id="cfg-direccion" value="Jr. Moquegua 482, Juliaca, Puno"
+                  oninput="onFieldChange()"/>
+                <button class="field-action" title="Buscar en mapa" onclick="toast('Mapa','Función de geolocalización disponible próximamente','warn')">
+                  <i class="ti ti-map-pin"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="fg">
+              <label>Departamento</label>
+              <select id="cfg-depto" onchange="onFieldChange()" style="padding:.55rem .8rem;border:1px solid var(--borde);border-radius:7px;font-size:13px;font-family:inherit;color:var(--t1)">
+                <option>Amazonas</option><option>Áncash</option><option>Apurímac</option><option>Arequipa</option>
+                <option>Ayacucho</option><option>Cajamarca</option><option>Callao</option><option>Cusco</option>
+                <option>Huancavelica</option><option>Huánuco</option><option>Ica</option><option>Junín</option>
+                <option>La Libertad</option><option>Lambayeque</option><option>Lima</option><option>Loreto</option>
+                <option>Madre de Dios</option><option>Moquegua</option><option>Pasco</option><option>Piura</option>
+                <option selected>Puno</option><option>San Martín</option><option>Tacna</option><option>Tumbes</option><option>Ucayali</option>
+              </select>
+            </div>
+
+            <div class="fg">
+              <label>Actividad principal</label>
+              <select id="cfg-actividad" onchange="onFieldChange()" style="padding:.55rem .8rem;border:1px solid var(--borde);border-radius:7px;font-size:13px;font-family:inherit;color:var(--t1)">
+                <option selected>Artesanía textil</option>
+                <option>Comercio minorista</option><option>Servicios de alimentación</option>
+                <option>Confecciones</option><option>Agricultura / ganadería</option>
+                <option>Transporte</option><option>Construcción</option><option>Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-section-divider"><span>Seguridad</span></div>
+
+          <div class="fg">
+            <label>Contraseña actual <span style="color:var(--rojo)">*</span></label>
+            <div class="field-wrap">
+              <input type="password" id="cfg-pwd-actual" placeholder="Ingresa tu contraseña actual" oninput="onFieldChange()"/>
+              <button class="field-action" onclick="togglePwd('cfg-pwd-actual',this)"><i class="ti ti-eye"></i></button>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Nueva contraseña</label>
+            <div class="field-wrap">
+              <input type="password" id="cfg-pwd-new" placeholder="Mínimo 8 caracteres" oninput="checkPwdStrength();onFieldChange()"/>
+              <button class="field-action" onclick="togglePwd('cfg-pwd-new',this)"><i class="ti ti-eye"></i></button>
+            </div>
+            <div class="pwd-strength" id="pwd-bar"></div>
+            <div class="pwd-label hint-info" id="pwd-lbl"></div>
+          </div>
+          <div class="fg">
+            <label>Confirmar nueva contraseña</label>
+            <div class="field-wrap">
+              <input type="password" id="cfg-pwd-confirm" placeholder="Repite la nueva contraseña" oninput="checkPwdMatch();onFieldChange()"/>
+              <button class="field-action" onclick="togglePwd('cfg-pwd-confirm',this)"><i class="ti ti-eye"></i></button>
+            </div>
+            <div class="field-hint" id="hint-pwd-match"></div>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:.75rem">
+            <button class="btn btn-p" id="cfg-save-btn" onclick="saveConfig()" style="margin-top:0;flex:1"><i class="ti ti-device-floppy"></i> Guardar cambios</button>
+            <button class="btn btn-g" onclick="discardChanges()" style="margin-top:0;width:auto;padding:.65rem 1rem"><i class="ti ti-x"></i> Descartar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div>
+      <!-- Notificaciones -->
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Notificaciones</h3></div>
+        <div class="pc-b">
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Alertas de trámites</div><div class="toggle-sub">Estado de licencias y expedientes</div></div>
+            <button class="toggle on" id="t1" onclick="toggleSwitch('t1')"></button>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Recordatorios SUNAT</div><div class="toggle-sub">Declaración mensual y vencimientos</div></div>
+            <button class="toggle on" id="t2" onclick="toggleSwitch('t2')"></button>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Nuevas opciones de crédito</div><div class="toggle-sub">Cuando se desbloqeuen productos</div></div>
+            <button class="toggle on" id="t3" onclick="toggleSwitch('t3')"></button>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Actualizaciones de score</div><div class="toggle-sub">Cambios en tu puntaje crediticio</div></div>
+            <button class="toggle off" id="t4" onclick="toggleSwitch('t4')"></button>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Boletín MYPE mensual</div><div class="toggle-sub">Noticias y beneficios para emprendedores</div></div>
+            <button class="toggle off" id="t5" onclick="toggleSwitch('t5')"></button>
+          </div>
+          <div class="cfg-section-divider"><span>Canal preferido</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="canal" checked/> SMS</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="canal"/> Correo</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="canal"/> WhatsApp</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="canal"/> Todos</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seguridad de cuenta -->
+      <div class="pc" style="margin-bottom:1.1rem">
+        <div class="pc-h"><h3>Seguridad de la cuenta</h3></div>
+        <div class="pc-b">
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Verificación en 2 pasos (SMS)</div><div class="toggle-sub">Activa · +51 951 384 720</div></div>
+            <button class="toggle on" id="t2fa" onclick="toggle2FA()"></button>
+          </div>
+          <div class="toggle-row">
+            <div><div class="toggle-lbl">Alertas de inicio de sesión</div><div class="toggle-sub">Notificar accesos desde nuevos dispositivos</div></div>
+            <button class="toggle on" id="t-login" onclick="toggleSwitch('t-login')"></button>
+          </div>
+          <div class="cfg-section-divider"><span>Sesiones activas</span></div>
+          <div class="req" id="session-este"><i class="ti ti-device-laptop req-ic" style="color:var(--verde)"></i><div class="req-t">Este dispositivo — Chrome / Windows<div class="req-s">Juliaca, Puno · Ahora mismo</div></div><span class="chip cg">Activa</span></div>
+          <div class="req" id="session-cel"><i class="ti ti-device-mobile req-ic" style="color:var(--azul)"></i><div class="req-t">Android — Samsung Galaxy<div class="req-s">Juliaca, Puno · Hace 2 horas</div></div>
+            <button onclick="cerrarSesionMovil()" style="font-size:10px;color:var(--rojo);background:none;border:none;cursor:pointer;font-weight:600">Cerrar</button>
+          </div>
+          <button class="btn btn-g" onclick="cerrarTodasSesiones()"><i class="ti ti-logout"></i> Cerrar todas las demás sesiones</button>
+        </div>
+      </div>
+
+      <!-- Zona de peligro -->
+      <div class="pc" style="border:1px solid var(--rojo-l)">
+        <div class="pc-h" style="background:var(--rojo-l)">
+          <h3 style="color:var(--rojo)"><i class="ti ti-alert-triangle" style="font-size:15px;vertical-align:-2px;margin-right:5px"></i>Zona de peligro</h3>
+        </div>
+        <div class="pc-b">
+          <div class="ir"><span class="lbl">Descargar mis datos</span><button onclick="exportarDatos()" style="font-size:11px;color:var(--azul);background:none;border:none;cursor:pointer;font-weight:600">Exportar JSON</button></div>
+          <div class="ir"><span class="lbl">Suspender cuenta</span><button onclick="suspenderCuenta()" style="font-size:11px;color:var(--oro);background:none;border:none;cursor:pointer;font-weight:600">Suspender</button></div>
+          <div class="ir"><span class="lbl">Eliminar cuenta</span><button onclick="eliminarCuenta()" style="font-size:11px;color:var(--rojo);background:none;border:none;cursor:pointer;font-weight:600">Eliminar cuenta</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+/* ════════════════ NAVEGACIÓN ════════════════ */
+const titles={dashboard:'Dashboard',identidad:'Identidad Digital',formalizacion:'Formalización',credito:'Acceso al Crédito',historial:'Historial',documentos:'Documentos',asistente:'Asistente IA',config:'Configuración'};
+function showPage(id,navEl){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg){pg.classList.add('active')}
+  document.getElementById('page-title').textContent=titles[id]||id;
+  if(navEl) navEl.classList.add('active');
+  else document.querySelectorAll('.nav-item').forEach(n=>{if(n.textContent.toLowerCase().includes(id.slice(0,5)))n.classList.add('active')});
+}
+
+/* ════════════════ TOAST ════════════════ */
+function toast(title,sub,type='ok'){
+  const icons={ok:'ti-check-circle',warn:'ti-alert-triangle',err:'ti-x-circle'};
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  t.innerHTML=`<i class="ti ${icons[type]} toast-icon"></i><div class="toast-msg"><div class="toast-title">${title}</div><div class="toast-sub">${sub}</div></div>`;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{t.classList.add('removing');setTimeout(()=>t.remove(),300)},3500);
+}
+
+/* ════════════════ MODAL ════════════════ */
+function openModal(title,body,content,btns){
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-body').textContent=body;
+  document.getElementById('modal-content').innerHTML=content||'';
+  document.getElementById('modal-btns').innerHTML=btns||'';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal()});
+
+/* ════════════════ ACCIONES ════════════════ */
+let scoreVal=715;
+
+function verifyReniec(){
+  toast('Verificando...','Conectando con RENIEC API','warn');
+  setTimeout(()=>toast('Identidad confirmada','DNI biométrico válido al '+new Date().toLocaleDateString('es-PE'),'ok'),2200);
+}
+
+function saveProfile(){
+  const tel=document.getElementById('tel-inp').value;
+  const email=document.getElementById('email-inp').value;
+  if(!tel||!email){toast('Error','Completa todos los campos','err');return}
+  toast('Perfil actualizado','Tus datos fueron guardados correctamente','ok');
+}
+
+/* ════════════════ CONFIGURACIÓN ════════════════ */
+let cfgDirty=false;
+const cfgOriginal={nombre:'María Elena Quispe Huanca',email:'m.quispe@textil.pe',tel:'+51 951 384 720',dir:'Jr. Moquegua 482, Juliaca, Puno'};
+
+function onFieldChange(){
+  cfgDirty=true;
+  document.getElementById('dirty-banner').classList.add('show');
+  document.getElementById('cfg-status-chip').textContent='Cambios pendientes';
+  document.getElementById('cfg-status-chip').className='chip co';
+  updateLivePreview();
+}
+
+function updateLivePreview(){
+  const n=document.getElementById('cfg-nombre').value||'';
+  const e=document.getElementById('cfg-email').value||'';
+  const t=document.getElementById('cfg-telefono').value||'';
+  const initials=n.split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+  document.getElementById('cfg-prev-fullname').textContent=n;
+  document.getElementById('cfg-prev-email').textContent=e;
+  document.getElementById('cfg-card-name').textContent=n||'—';
+  document.getElementById('cfg-card-email').textContent=(e||'—')+' · '+(t||'—');
+  document.getElementById('cfg-av-initials').textContent=initials||'MQ';
+  document.getElementById('cfg-prev-av').textContent=initials||'MQ';
+  if(document.querySelector('.sb-pname')) document.querySelector('.sb-pname').textContent=n.split(' ').slice(0,3).join(' ')||'—';
+}
+
+function validateNombre(){
+  const v=document.getElementById('cfg-nombre').value.trim();
+  const h=document.getElementById('hint-nombre');
+  if(v.length<3){h.textContent='Mínimo 3 caracteres';h.className='field-hint hint-err';return false}
+  h.textContent='Tal como aparece en tu DNI';h.className='field-hint hint-info';return true;
+}
+
+function validateEmail(){
+  const v=document.getElementById('cfg-email').value.trim();
+  const h=document.getElementById('hint-email');
+  const ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if(!ok){h.innerHTML='Correo no válido';h.className='field-hint hint-err';return false}
+  if(v!==cfgOriginal.email){h.innerHTML='⚠ Sin verificar — se enviará código';h.className='field-hint hint-info'}
+  else{h.innerHTML='<i class="ti ti-check" style="font-size:9px"></i> Verificado';h.className='field-hint hint-ok'}
+  return true;
+}
+
+function validateTel(){
+  const v=document.getElementById('cfg-telefono').value.replace(/\s/g,'');
+  const h=document.getElementById('hint-tel');
+  const ok=/^\+?51?9\d{8}$/.test(v);
+  if(!ok){h.textContent='Formato inválido. Ej: +51 951 384 720';h.className='field-hint hint-err';return false}
+  h.textContent='Número válido';h.className='field-hint hint-ok';return true;
+}
+
+function togglePwd(id,btn){
+  const inp=document.getElementById(id);
+  const show=inp.type==='password';
+  inp.type=show?'text':'password';
+  btn.innerHTML=show?'<i class="ti ti-eye-off"></i>':'<i class="ti ti-eye"></i>';
+}
+
+function checkPwdStrength(){
+  const v=document.getElementById('cfg-pwd-new').value;
+  const bar=document.getElementById('pwd-bar');
+  const lbl=document.getElementById('pwd-lbl');
+  if(!v){bar.style.width='0';lbl.textContent='';return}
+  let score=0;
+  if(v.length>=8) score++;
+  if(v.length>=12) score++;
+  if(/[A-Z]/.test(v)) score++;
+  if(/[0-9]/.test(v)) score++;
+  if(/[^A-Za-z0-9]/.test(v)) score++;
+  const levels=[
+    {w:'20%',c:var_rojo,t:'Muy débil'},
+    {w:'40%',c:'#E67E22',t:'Débil'},
+    {w:'60%',c:var_oro,t:'Regular'},
+    {w:'80%',c:'#2ECC71',t:'Fuerte'},
+    {w:'100%',c:var_verde,t:'Muy fuerte'}
+  ];
+  const l=levels[Math.min(score,4)];
+  bar.style.cssText=`height:4px;border-radius:4px;margin-top:5px;transition:all .3s;width:${l.w};background:${l.c}`;
+  lbl.textContent=l.t;
+  lbl.className='pwd-label '+(score>=3?'hint-ok':score>=2?'hint-info':'hint-err');
+}
+const var_rojo='#C0392B',var_oro='#C8973A',var_verde='#1A7A4A';
+
+function checkPwdMatch(){
+  const a=document.getElementById('cfg-pwd-new').value;
+  const b=document.getElementById('cfg-pwd-confirm').value;
+  const h=document.getElementById('hint-pwd-match');
+  if(!b){h.textContent='';return}
+  if(a===b){h.textContent='✓ Las contraseñas coinciden';h.className='field-hint hint-ok'}
+  else{h.textContent='Las contraseñas no coinciden';h.className='field-hint hint-err'}
+}
+
+function saveConfig(){
+  const ok1=validateNombre();
+  const ok2=validateEmail();
+  const ok3=validateTel();
+  if(!ok1||!ok2||!ok3){toast('Revisa los campos','Hay errores en el formulario','err');return}
+
+  const pwdNueva=document.getElementById('cfg-pwd-new').value;
+  const pwdConfirm=document.getElementById('cfg-pwd-confirm').value;
+  const pwdActual=document.getElementById('cfg-pwd-actual').value;
+  if(pwdNueva&&!pwdActual){toast('Contraseña requerida','Ingresa tu contraseña actual para cambiarla','err');return}
+  if(pwdNueva&&pwdNueva!==pwdConfirm){toast('Contraseñas no coinciden','Verifica la nueva contraseña','err');return}
+  if(pwdNueva&&pwdNueva.length<8){toast('Contraseña muy corta','Mínimo 8 caracteres','err');return}
+
+  const btn=document.getElementById('cfg-save-btn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2" style="animation:spin .8s linear infinite"></i> Guardando…';
+
+  setTimeout(()=>{
+    cfgDirty=false;
+    document.getElementById('dirty-banner').classList.remove('show');
+    document.getElementById('cfg-status-chip').textContent='Guardado ✓';
+    document.getElementById('cfg-status-chip').className='chip cg';
+    btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Guardar cambios';
+    if(pwdNueva){document.getElementById('cfg-pwd-actual').value='';document.getElementById('cfg-pwd-new').value='';document.getElementById('cfg-pwd-confirm').value='';document.getElementById('pwd-bar').style.cssText='';document.getElementById('pwd-lbl').textContent='';document.getElementById('hint-pwd-match').textContent=''}
+    toast('¡Cambios guardados!','Tu perfil fue actualizado correctamente','ok');
+  },1400);
+}
+
+function discardChanges(){
+  document.getElementById('cfg-nombre').value=cfgOriginal.nombre;
+  document.getElementById('cfg-email').value=cfgOriginal.email;
+  document.getElementById('cfg-telefono').value=cfgOriginal.tel;
+  document.getElementById('cfg-direccion').value=cfgOriginal.dir;
+  document.getElementById('cfg-pwd-actual').value='';
+  document.getElementById('cfg-pwd-new').value='';
+  document.getElementById('cfg-pwd-confirm').value='';
+  document.getElementById('hint-nombre').textContent='Tal como aparece en tu DNI';document.getElementById('hint-nombre').className='field-hint hint-info';
+  document.getElementById('hint-email').innerHTML='<i class="ti ti-check" style="font-size:9px"></i> Verificado';document.getElementById('hint-email').className='field-hint hint-ok';
+  document.getElementById('hint-tel').textContent='Formato: +51 9XX XXX XXX';document.getElementById('hint-tel').className='field-hint hint-info';
+  document.getElementById('pwd-bar').style.cssText='';document.getElementById('pwd-lbl').textContent='';document.getElementById('hint-pwd-match').textContent='';
+  cfgDirty=false;
+  document.getElementById('dirty-banner').classList.remove('show');
+  document.getElementById('cfg-status-chip').textContent='Sin cambios';document.getElementById('cfg-status-chip').className='chip cx';
+  updateLivePreview();
+  toast('Cambios descartados','Se restauraron los datos originales','warn');
+}
+
+function verifyEmail(){
+  const e=document.getElementById('cfg-email').value;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){toast('Correo inválido','Ingresa un correo válido primero','err');return}
+  toast('Código enviado','Se envió un código de 6 dígitos a '+e,'warn');
+  openModal('Verificar correo electrónico','Ingresa el código de 6 dígitos enviado a '+e,
+    `<div class="fg full"><label>Código de verificación</label><input type="text" id="verify-code" placeholder="123456" maxlength="6" style="letter-spacing:.2em;font-size:18px;text-align:center"/></div>`,
+    `<button class="btn btn-p" onclick="confirmEmailVerify()" style="margin-top:0">Verificar</button><button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+function confirmEmailVerify(){
+  const c=document.getElementById('verify-code').value;
+  if(c.length!==6){toast('Código inválido','Ingresa los 6 dígitos','err');return}
+  closeModal();
+  document.getElementById('hint-email').innerHTML='<i class="ti ti-check" style="font-size:9px"></i> Verificado';
+  document.getElementById('hint-email').className='field-hint hint-ok';
+  toast('Correo verificado','Tu nuevo correo fue confirmado','ok');
+}
+
+function verifySMS(){
+  toast('SMS enviado','Código de verificación enviado a tu teléfono','warn');
+  openModal('Verificar número de teléfono','Ingresa el código SMS enviado a tu número',
+    `<div class="fg full"><label>Código SMS</label><input type="text" id="sms-code" placeholder="123456" maxlength="6" style="letter-spacing:.2em;font-size:18px;text-align:center"/></div>`,
+    `<button class="btn btn-p" onclick="confirmSMS()" style="margin-top:0">Verificar</button><button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+function confirmSMS(){
+  closeModal();
+  document.getElementById('hint-tel').textContent='✓ Número verificado';
+  document.getElementById('hint-tel').className='field-hint hint-ok';
+  toast('Teléfono verificado','Tu número fue confirmado correctamente','ok');
+}
+
+function changeAvatar(){
+  openModal('Foto de perfil','Selecciona cómo quieres actualizar tu foto:',
+    `<div style="display:flex;flex-direction:column;gap:8px;margin-top:.5rem">
+      <label style="display:flex;align-items:center;gap:10px;padding:.75rem;border:1px solid var(--borde);border-radius:8px;cursor:pointer;font-size:13px">
+        <i class="ti ti-upload" style="font-size:20px;color:var(--azul)"></i>Subir foto desde mi dispositivo
+      </label>
+      <div onclick="setAvatarColor()" style="display:flex;align-items:center;gap:10px;padding:.75rem;border:1px solid var(--borde);border-radius:8px;cursor:pointer;font-size:13px">
+        <i class="ti ti-palette" style="font-size:20px;color:var(--oro)"></i>Cambiar color de avatar
+      </div>
+      <div onclick="removeAvatar()" style="display:flex;align-items:center;gap:10px;padding:.75rem;border:1px solid var(--rojo-l);border-radius:8px;cursor:pointer;font-size:13px;color:var(--rojo)">
+        <i class="ti ti-trash" style="font-size:20px"></i>Eliminar foto actual
+      </div>
+    </div>`,
+    `<button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+
+const avatarColors=['rgba(200,151,58,.25)','rgba(27,58,107,.25)','rgba(26,122,74,.25)','rgba(192,57,43,.2)','rgba(142,68,173,.2)'];
+let colorIdx=0;
+function setAvatarColor(){
+  closeModal();
+  colorIdx=(colorIdx+1)%avatarColors.length;
+  document.getElementById('cfg-avatar').style.background=avatarColors[colorIdx];
+  document.getElementById('cfg-prev-av').style.background=avatarColors[colorIdx];
+  toast('Avatar actualizado','Color de perfil cambiado','ok');
+}
+function removeAvatar(){closeModal();toast('Foto eliminada','Se usará el avatar por defecto','ok')}
+
+function toggleSwitch(id){
+  const el=document.getElementById(id);
+  const on=el.classList.contains('on');
+  el.classList.toggle('on',!on);el.classList.toggle('off',on);
+  toast('Notificación '+(on?'desactivada':'activada'),'',(on?'warn':'ok'));
+}
+
+function toggle2FA(){
+  const el=document.getElementById('t2fa');
+  const on=el.classList.contains('on');
+  if(on){
+    openModal('Desactivar verificación en 2 pasos','⚠ Esto reduce la seguridad de tu cuenta. ¿Estás segura?','',
+      `<button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>
+       <button class="btn btn-p" style="margin-top:0;background:var(--rojo)" onclick="closeModal();toggleSwitch('t2fa');toast('2FA desactivado','Tu cuenta es menos segura ahora','warn')">Sí, desactivar</button>`
+    );
+  } else {
+    toggleSwitch('t2fa');toast('2FA activado','Verificación en 2 pasos habilitada','ok');
+  }
+}
+
+function cerrarSesionMovil(){
+  document.getElementById('session-cel').style.opacity='.4';
+  document.getElementById('session-cel').style.pointerEvents='none';
+  toast('Sesión cerrada','Dispositivo móvil desconectado','ok');
+}
+function cerrarTodasSesiones(){
+  openModal('Cerrar todas las sesiones','Se cerrarán sesiones en todos los dispositivos excepto este. Tendrás que volver a iniciar sesión en cada uno.','',
+    `<button class="btn btn-p" onclick="closeModal();toast('Sesiones cerradas','Todos los demás dispositivos fueron desconectados','ok')" style="margin-top:0">Confirmar</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+function exportarDatos(){
+  const data=JSON.stringify({nombre:'María Elena Quispe Huanca',ruc:'10473829101',score:scoreVal,formalizacion:'82%',fecha:new Date().toISOString()},null,2);
+  const b=new Blob([data],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='mypes_mis_datos.json';a.click();
+  toast('Datos exportados','Archivo JSON descargado','ok');
+}
+function suspenderCuenta(){
+  openModal('Suspender cuenta','Tu cuenta quedará en modo lectura. Podrás reactivarla cuando quieras.','',
+    `<button class="btn btn-p" style="margin-top:0;background:var(--oro)" onclick="closeModal();toast('Solicitud enviada','Recibirás un correo de confirmación','warn')">Suspender temporalmente</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+function eliminarCuenta(){
+  openModal('Eliminar cuenta permanentemente','⚠ Esta acción es irreversible. Se eliminarán todos tus datos, documentos e historial.',
+    `<div class="fg full" style="margin-top:.5rem"><label>Escribe <strong>ELIMINAR</strong> para confirmar</label><input type="text" id="confirm-delete" placeholder="ELIMINAR"/></div>`,
+    `<button class="btn btn-p" style="margin-top:0;background:var(--rojo)" onclick="confirmDelete()">Eliminar definitivamente</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+function confirmDelete(){
+  const v=document.getElementById('confirm-delete').value;
+  if(v!=='ELIMINAR'){toast('Escribe ELIMINAR','Debes confirmar escribiendo ELIMINAR exactamente','err');return}
+  closeModal();toast('Solicitud registrada','Un agente te contactará para procesar la eliminación','warn');
+}
+
+function toggleNotif(id){
+  const el=document.getElementById(id);
+  const on=el.textContent==='Activado';
+  el.textContent=on?'Desactivado':'Activado';
+  el.className='chip '+(on?'cx':'cg');
+  toast('Notificaciones',`Alertas ${on?'desactivadas':'activadas'} correctamente`,on?'warn':'ok');
+}
+
+function pagarLicencia(){
+  openModal(
+    'Pago de derecho de trámite',
+    'Monto a pagar: S/ 45.00 a la Municipalidad Provincial de San Román (Juliaca).',
+    `<div class="form-grid" style="margin-bottom:10px">
+      <div class="fg"><label>Medio de pago</label><select><option>Tarjeta débito/crédito</option><option>Transferencia bancaria</option><option>Agente bancario</option><option>PagoEfectivo</option></select></div>
+      <div class="fg"><label>Número de tarjeta</label><input type="text" placeholder="•••• •••• •••• ••••"/></div>
+    </div>`,
+    `<button class="btn btn-p" onclick="confirmarPago()" style="margin-top:0">Pagar S/ 45.00</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+
+function confirmarPago(){
+  closeModal();
+  toast('Procesando pago...','Conectando con pasarela de pagos','warn');
+  setTimeout(()=>{
+    toast('¡Pago exitoso!','S/ 45.00 pagado · Voucher #MJ-2025-8821','ok');
+    document.getElementById('pago-chip').textContent='Pagado';
+    document.getElementById('pago-chip').className='chip cg';
+    addHistory('19 jun 2025','Pago derecho licencia municipal S/ 45','Pasarela pago','<span class="chip cg">Completado</span>');
+    upgradeScore(15);
+  },2500);
+}
+
+function checkLicencia(){
+  toast('Consultando...','Accediendo al sistema de la Municipalidad','warn');
+  setTimeout(()=>{
+    toast('Estado actualizado','MPJ-2025-04821: En revisión documental','ok');
+    document.getElementById('lic-status').textContent='Revisión documental ✓';
+  },2000);
+}
+
+function uploadDoc(){
+  simulateUpload();
+}
+
+function simulateUpload(){
+  const tipo=document.getElementById('doc-tipo').value;
+  const desc=document.getElementById('doc-desc').value||tipo;
+  const zone=document.getElementById('upload-zone');
+  zone.innerHTML='<div style="color:var(--azul);font-size:12px;font-weight:500">⏳ Cargando documento...</div>';
+  toast('Subiendo archivo','Procesando: '+desc,'warn');
+  setTimeout(()=>{
+    zone.innerHTML='<i class="ti ti-check-circle" style="font-size:28px;color:var(--verde)"></i><div style="font-size:12px;color:var(--verde);margin-top:.4rem;font-weight:600">Documento cargado exitosamente</div>';
+    toast('Documento cargado',''+desc+' fue verificado y guardado','ok');
+    const cnt=document.getElementById('docs-count');
+    const n=parseInt(cnt.textContent)+1;
+    cnt.textContent=n+' archivos';
+    document.getElementById('metric-docs').textContent=n+'/8';
+    addHistory(new Date().toLocaleDateString('es-PE'),'Documento cargado: '+desc,'Usuario','<span class="chip cg">Cargado</span>');
+    upgradeScore(10);
+    setTimeout(()=>{
+      zone.innerHTML='<i class="ti ti-cloud-upload" style="font-size:30px;color:var(--t3)"></i><div style="font-size:12px;color:var(--t2);margin-top:.5rem">Arrastra tu archivo aquí o haz clic</div><div style="font-size:10px;color:var(--t3);margin-top:3px">PDF, JPG o PNG · máx. 5 MB</div>';
+      document.getElementById('doc-desc').value='';
+    },2500);
+  },1800);
+}
+
+function dragOver(e){e.preventDefault();document.getElementById('upload-zone').classList.add('dragover')}
+function dragLeave(e){document.getElementById('upload-zone').classList.remove('dragover')}
+function dropFile(e){e.preventDefault();dragLeave(e);simulateUpload()}
+
+function selectLoan(el,monto,plazo,tea,nombre){
+  document.querySelectorAll('.loan-item').forEach(l=>l.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('sim-monto').value=monto;
+  document.getElementById('sim-plazo').value=plazo;
+  document.getElementById('sim-tea').value=tea;
+  calcCuota();
+  toast('Producto seleccionado',nombre+' · S/ '+parseInt(monto).toLocaleString('es-PE'),'ok');
+}
+
+function solicitarCredito(){
+  const monto=document.getElementById('sim-monto').value;
+  const cuota=document.getElementById('sim-res').value;
+  openModal(
+    'Confirmar solicitud de crédito',
+    `Monto: S/ ${parseInt(monto).toLocaleString('es-PE')} · Cuota estimada: ${cuota}`,
+    `<div class="alert ok" style="margin-top:0"><i class="ti ti-check-circle"></i><p>Tu score de 715 te clasifica como cliente de <strong>riesgo bajo</strong>. Alta probabilidad de aprobación.</p></div>
+     <div class="alert info"><i class="ti ti-info-circle"></i><p>Un asesor te contactará en las próximas 24 horas para finalizar el trámite.</p></div>`,
+    `<button class="btn btn-p" onclick="enviarSolicitud()" style="margin-top:0">Enviar solicitud</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+
+function enviarSolicitud(){
+  closeModal();
+  toast('Solicitud enviada','Tu expediente fue enviado a evaluación crediticia','ok');
+  setTimeout(()=>toast('Evaluación en proceso','Tiempo estimado de respuesta: 24 horas','warn'),1500);
+  addHistory(new Date().toLocaleDateString('es-PE'),'Solicitud de crédito enviada','Plataforma','<span class="chip co">En evaluación</span>');
+  document.getElementById('metric-tramites').textContent='2';
+}
+
+function mejorarScore(){
+  openModal(
+    '¿Cómo mejorar tu score?',
+    'Acciones que subirían tu puntaje crediticio:',
+    `<div class="req"><i class="ti ti-notes req-ic" style="color:var(--verde)"></i><div class="req-t">Registrar movimientos contables<div class="req-s">+65 pts estimados → score 780</div></div><span class="chip co">+65 pts</span></div>
+     <div class="req"><i class="ti ti-building-store req-ic" style="color:var(--azul)"></i><div class="req-t">Obtener licencia de funcionamiento<div class="req-s">+30 pts estimados → score 810</div></div><span class="chip cb">+30 pts</span></div>
+     <div class="req"><i class="ti ti-calendar req-ic" style="color:var(--oro)"></i><div class="req-t">Mantener declaraciones sin mora 12 meses<div class="req-s">+20 pts estimados</div></div><span class="chip co">+20 pts</span></div>`,
+    `<button class="btn btn-p" onclick="closeModal();showPage('formalizacion',null)">Ir a Formalización</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cerrar</button>`
+  );
+}
+
+function openRegistros(){
+  openModal(
+    'Registrar movimientos contables',
+    'Agrega tus ingresos y egresos del mes. Esto mejorará tu score en +65 puntos.',
+    `<div class="form-grid">
+      <div class="fg"><label>Mes</label><select><option>Junio 2025</option><option>Mayo 2025</option><option>Abril 2025</option></select></div>
+      <div class="fg"><label>Ingresos totales (S/)</label><input type="number" id="r-ingresos" placeholder="4500"/></div>
+      <div class="fg"><label>Egresos totales (S/)</label><input type="number" id="r-egresos" placeholder="2800"/></div>
+      <div class="fg"><label>Descripción</label><input type="text" id="r-desc" placeholder="Ventas de artesanías"/></div>
+    </div>`,
+    `<button class="btn btn-p" onclick="guardarRegistro()" style="margin-top:0">Guardar registro</button>
+     <button class="btn btn-g" onclick="closeModal()" style="margin-top:0">Cancelar</button>`
+  );
+}
+
+function guardarRegistro(){
+  const ing=document.getElementById('r-ingresos').value;
+  const egr=document.getElementById('r-egresos').value;
+  if(!ing||!egr){toast('Error','Completa ingresos y egresos','err');return}
+  closeModal();
+  toast('Registro guardado','Movimientos contables guardados correctamente','ok');
+  upgradeScore(65);
+  addHistory(new Date().toLocaleDateString('es-PE'),'Registros contables junio 2025 guardados','Usuario','<span class="chip cg">Completado</span>');
+  setTimeout(()=>toast('¡Score mejorado!','Tu puntaje subió a '+scoreVal+' puntos','ok'),1000);
+}
+
+/* ════════════════ SCORE ════════════════ */
+function upgradeScore(pts){
+  scoreVal=Math.min(850,scoreVal+pts);
+  animateScore(scoreVal);
+}
+
+function animateScore(target){
+  const txt=document.getElementById('score-txt');
+  const big=document.getElementById('score-big');
+  const arc=document.getElementById('score-arc');
+  const dash=Math.round((target/850)*189);
+  if(arc) arc.setAttribute('stroke-dasharray',dash+' '+(189-dash));
+  if(txt) txt.textContent=target;
+  if(big) big.textContent=target+' pts';
+  const band=document.getElementById('score-band');
+  if(band){
+    if(target>=780) band.textContent='Riesgo muy bajo · Tasas preferentes';
+    else if(target>=720) band.textContent='Riesgo bajo · Apto para crédito';
+    else band.textContent='Riesgo moderado';
+  }
+  const ms=document.getElementById('metric-score');
+  if(ms) ms.textContent=target;
+  const ds=document.getElementById('dash-score');
+  if(ds) ds.textContent=target;
+}
+
+/* ════════════════ HISTORIAL ════════════════ */
+function addHistory(fecha,evento,fuente,estadoHTML){
+  const tbody=document.getElementById('hist-body');
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${fecha}</td><td>${evento}</td><td>${fuente}</td><td>${estadoHTML}</td>`;
+  tbody.insertBefore(tr,tbody.firstChild);
+  const cnt=document.getElementById('hist-count');
+  const n=parseInt(cnt.textContent)+1;
+  cnt.textContent=n+' eventos';
+  const actList=document.getElementById('activity-list');
+  const div=document.createElement('div');
+  div.className='act-item';
+  div.innerHTML=`<div class="act-dot" style="background:var(--verde)"></div><div><div class="act-title">${evento}</div><div class="act-date">${fecha} · ${fuente}</div></div>${estadoHTML}`;
+  actList.insertBefore(div,actList.firstChild);
+}
+
+/* ════════════════ SIMULADOR ════════════════ */
+function calcCuota(){
+  const P=parseFloat(document.getElementById('sim-monto').value)||0;
+  const n=parseInt(document.getElementById('sim-plazo').value)||1;
+  const R=(parseFloat(document.getElementById('sim-tea').value)||0)/100;
+  const tm=Math.pow(1+R,1/12)-1;
+  const c=tm===0?P/n:P*(tm*Math.pow(1+tm,n))/(Math.pow(1+tm,n)-1);
+  const total=c*n;
+  const fmt=v=>'S/ '+v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  document.getElementById('sim-res').value=fmt(c);
+  document.getElementById('sim-total').textContent=fmt(total);
+  document.getElementById('sim-int').textContent=fmt(total-P);
+}
+calcCuota();
+
+/* ════════════════ AVISO CAMBIOS SIN GUARDAR ════════════════ */
+window.addEventListener('beforeunload',e=>{
+  if(cfgDirty){e.preventDefault();e.returnValue=''}
+});
+
+/* ════════════════ CHAT IA ════════════════ */
+const CONTEXT=`Eres un asistente experto en formalización de MYPES en Perú y acceso al crédito.
+El usuario es María Elena Quispe Huanca, propietaria de Textilería Andina Quispe en Juliaca, Puno.
+Datos: RUC 10473829101, Nuevo RUS Categoría 1, 5 años en el mercado, score crediticio 715 pts (riesgo bajo).
+Tiene licencia municipal en proceso (expediente MPJ-2025-04821, costo S/45), 82% de formalización, 3 opciones de crédito disponibles (Caja Huancayo S/8000 15%TEA, COFIDE S/15000 12%TEA, FAE-MYPE S/25000 9.5%TEA).
+Responde de forma clara, breve y práctica en español peruano. Usa puntos o listas cuando sea útil. Sé empático y motivador.`;
+
+let chatHistory=[];
+
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const msg=input.value.trim();
+  if(!msg)return;
+  addMsg(msg,'user');
+  input.value='';
+  document.getElementById('quick-btns').style.display='none';
+  showTyping();
+  chatHistory.push({role:'user',content:msg});
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system:CONTEXT,
+        messages:chatHistory
+      })
+    });
+    const d=await r.json();
+    const reply=d.content?.map(c=>c.text||'').join('')||'No pude obtener respuesta. Intenta de nuevo.';
+    chatHistory.push({role:'assistant',content:reply});
+    removeTyping();
+    addMsg(reply,'bot');
+  }catch(e){
+    removeTyping();
+    addMsg('Hubo un error al conectar con el asistente. Intenta de nuevo en unos momentos.','bot');
+  }
+}
+
+function quickMsg(txt){
+  document.getElementById('chat-input').value=txt;
+  sendChat();
+}
+
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}}
+
+function addMsg(text,role){
+  const msgs=document.getElementById('chat-msgs');
+  const now=new Date().toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});
+  const div=document.createElement('div');
+  div.className='msg '+role;
+  div.innerHTML=`<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+let typingEl=null;
+function showTyping(){
+  const msgs=document.getElementById('chat-msgs');
+  typingEl=document.createElement('div');
+  typingEl.className='msg bot';
+  typingEl.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(typingEl);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function removeTyping(){if(typingEl){typingEl.remove();typingEl=null}}
+</script>
+</body>
+</html>
